@@ -1,0 +1,30 @@
+docker -v เวอร์ชัน
+docker ps
+docker ps -all
+docker run hello-word
+docker run busybox echo 'hello world in docker'
+docker rub busybox ping google.com
+docker run stop image
+docker pull busybox
+docker create busybox ping google.com
+docker start image
+docker stop image
+docker system prune *** ลบ contaier ออก
+docker run nginx เปิดตัว nginx
+docker exec 37b4b1ee2aac ls เช็คคำสั่ง
+
+เช็ค ls สามารถทำได้ทั้งสองคำสั่ง
+1.docker exec -it 37b4b1ee2aac sh
+2.docker exec -it 37b4b1ee2aac bash 
+
+docker rm **CON ID**
+
+docker run -p 80:80 set port 
+docker run -p 8800:80 nginx //รัน sever
+
+docker run -d -p 7800:80 nginx
+
+docker images
+
+docker system df ดูขนาดของ TYPE
+
