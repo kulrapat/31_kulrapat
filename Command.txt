@@ -1,5 +1,5 @@
 docker -v เวอร์ชัน
-docker ps
+docker ps เช็คคอนเทนเนอร์
 docker ps -all
 docker run hello-word
 docker run busybox echo 'hello world in docker'
@@ -28,3 +28,59 @@ docker images
 
 docker system df ดูขนาดของ TYPE
 
+
+
+images ที่จำเป็นต้องโหลด
+docker pull wordpress
+docker pull mysql:5.7
+docker pull phpmyadmin/phpmyadmin
+
+*สร้าง network
+
+docker network create wordpress
+docker network ls
+ docker network rm wordpress
+
+docker run --name mysql --network wordpress -e MYSQL_ROOT_PASSWORD=1111 -e MYSQL_DATABASE=wordpress_db -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=wordpress -d mysql:5.7
+docker run --name pma --network wordpress -p 8888:80 -e PMA_ARBITRARY=1 -d phpmyadmin/phpmyadmin
+docker run -d --name wordpress --network wordpress -p 888:80 -e WORDPRESS_DB_HOST=mysql -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress_db wordpress
+
+
+
+
+
+** Show network
+docker network inspect wordpress
+
+**เข้าดูไฟล์ที่มี
+*แบบ 1 เก็บ deta ไว้ใน contaier ไม่นิยมใช้กันพอลบข้อมูลหายหมด
+docker exec -it pma sh
+    :ls
+    :apt-get update
+    :apt-get install vim
+    :apt-get install bash
+    vi a.text กด i พิมพ์ข้อมูล กด esc ออก พิมพ์ :wq enter save
+
+
+**แบบ 2 volume
+docker volume ls
+docker volume create wp_volume
+docker volume create mysql_volume
+docker volume rm wp_volume mysql_volume //ลบ volume ออก
+
+docker contaier inspect wordpress
+ที่อยู่ volume /var/www/html
+
+docker contaier inspect mysql
+ที่อยู่ volume /var/lib/mysql
+
+สร้างเอง 
+docker volume create wp_volume
+docker volume create mysql_volume
+docker network create wordpress
+
+docker volume ls
+
+docker run -d --name mysql02 --network wordpress02 -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1111 -e MYSQL_DATABASE=wordpress02_db -e MYSQL_USER=wordpress -e MYSQL_PASSWORD=wordpress -d mysql:5.7
+docker run -d --name wordpress02 --network wordpress02 -v wp_volume:/var/www/html -p 889:80 -e WORDPRESS_DB_HOST=mysql02 -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress02_db wordpress
+docker run --name pma02 --network wordpress02 -p 8889:80 -e PMA_ARBITRARY=1 -d phpmyadmin/phpmyadmin
