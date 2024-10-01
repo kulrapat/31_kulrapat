@@ -1,0 +1,18 @@
+คำสั่งที่้ใช้ในการจัดการทรัพยากร
+
+kubectl get pod
+kubectl apply -f.\sample-pod.yml ( . คือรันไฟล์ทั้งหมด)
+kubectl get all
+kubectl logs mypod(client-pod)
+
+
+คำสั่งลบ
+kubectl delete sevice myservice
+kubectl delete pod client-pod
+kubectl delete all --all(ลบทั้งหมด)
+kubectl delete deployment client-deployment
+
+
+
+
+jmete.bat
